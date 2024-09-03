@@ -14,7 +14,7 @@ def reset_login_attempts(url):
     return r.status_code == 302
 
 def main():
-    urlab = 'https://0ae800fa03672f378127938900a50026.web-security-academy.net/login'
+    urlab = 'https://0ae800fa03672f378127938900a50026.web-security-academy.net/login' # Change to your url
     pass_generator = passwords_list_generator()
     reached_end = False
     raised_error = False
