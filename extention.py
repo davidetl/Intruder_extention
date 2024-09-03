@@ -1,7 +1,6 @@
 import requests
 import urllib3
 import sys
-import time 
 
 # Usage checking
 if len(sys.argv) != 2:
@@ -43,12 +42,10 @@ def main():
                  print("Too many attempts raised")
                  break
             else:
-                sys.stdout.write(f"{passwd} is incorrect\r")
-                sys.stdout.flush()
+                print(f"{passwd} is incorrect")
 
         if reset_login_attempts(urlab):
-            sys.stdout.write("reseted login attempts\r ")
-            sys.stdout.flush()
+            print("reseted login attempts")
         else:
             print("failed to reset login attempts")
             raised_error = True
